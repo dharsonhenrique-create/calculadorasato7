@@ -108,14 +108,16 @@
                 
                 <!-- Meta Ads -->
                 <div class="card p-5 rounded-2xl border-l-4 border-l-blue-600">
-                    <h2 class="text-lg font-bold mb-4 flex items-center justify-between">
-                        <span>Meta Ads (Face/Insta)</span>
+                    <div class="flex items-center justify-between mb-2">
+                        <h2 class="text-lg font-bold">Meta Ads (Face/Insta)</h2>
                         <svg class="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-                    </h2>
+                    </div>
+                    <p class="text-[10px] text-blue-300 mb-3 italic">* Dedução automática de 12.15% (Impostos Meta)</p>
                     <div class="space-y-3">
                         <div>
-                            <label class="block text-[10px] text-gray-400 uppercase">Investimento (R$)</label>
+                            <label class="block text-[10px] text-gray-400 uppercase">Investimento Bruto (R$)</label>
                             <input type="number" id="inv_meta" value="3000" class="w-full bg-black border border-gray-800 p-2 rounded text-sm outline-none focus:border-blue-600" oninput="calculate()">
+                            <p class="text-[10px] text-gray-500 mt-1">Líquido para anúncios: <span id="meta_liquido" class="text-blue-400">R$ 0,00</span></p>
                         </div>
                         <div>
                             <label class="block text-[10px] text-gray-400 uppercase">Custo por Lead (R$)</label>
@@ -249,8 +251,8 @@
                         <div>
                             <h3 class="text-blood font-bold uppercase text-xs mb-2">Fundamentos de Tráfego</h3>
                             <dl class="manual-grid">
-                                <dt>Investimento Total</dt>
-                                <dd>Capital mensal injetado nas plataformas. É o "combustível" que gera os leads.</dd>
+                                <dt>Investimento Bruto (Meta)</dt>
+                                <dd>O valor total pago ao Meta Ads. Esta calculadora desconta automaticamente 12,15% (ISS + PIS/COFINS) para basear os cálculos no valor que realmente compra anúncios.</dd>
                                 
                                 <dt>CPL (Custo por Lead)</dt>
                                 <dd>Quanto você paga por cada pessoa que entra em contato. Meta costuma ter CPL menor, Google maior.</dd>
@@ -270,7 +272,7 @@
                                 <dd>Porcentagem de agendados que realmente comparecem à avaliação clínica.</dd>
                                 
                                 <dt>Taxa de Fechamento (Conversão)</dt>
-                                <dd>A eficiência do dentista avaliador em transformar o orçamento em contrato assinado. Google costuma ter uma taxa de fechamento maior que o Meta.</dd>
+                                <dd>A eficiência do dentista avaliador em transformar o orçamento em contrato assinado.</dd>
                             </dl>
                         </div>
 
@@ -284,7 +286,7 @@
                                 <dd>Taxa final de conversão de lead em venda por plataforma. Indica onde o seu dinheiro rende mais contratos.</dd>
                                 
                                 <dt>ROI Blended</dt>
-                                <dd>O lucro gerado sobre o investimento total. Essencial para medir a saúde financeira da clínica.</dd>
+                                <dd>O lucro gerado sobre o investimento total pago (bruto). Essencial para medir a saúde financeira.</dd>
                             </dl>
                         </div>
 
@@ -295,10 +297,10 @@
                                 <dd>Relação entre o valor que o paciente traz (LTV) e o custo para trazê-lo (CAC). Ideal acima de 3.</dd>
                                 
                                 <dt>Ponto de Equilíbrio (Breakeven)</dt>
-                                <dd>Número mínimo de contratos que a clínica precisa fechar para "empatar" o investimento em anúncios.</dd>
+                                <dd>Número mínimo de contratos necessários para pagar o investimento bruto em anúncios.</dd>
                                 
-                                <dt>Multiplicador (Fator x)</dt>
-                                <dd>Quantas vezes o faturamento superou o investimento (ex: 5x significa faturar R$ 5 para cada R$ 1 investido).</dd>
+                                <dt>Impostos Meta Ads (12,15%)</dt>
+                                <dd>Refere-se ao ISS (2,9%) e PIS/COFINS (9,25%) que o Meta Ads Brasil passou a cobrar. Essa retenção reduz o seu poder de compra de anúncios.</dd>
                             </dl>
                         </div>
                     </div>
@@ -321,8 +323,16 @@
         }
 
         function calculate() {
+            // Constante de Imposto Meta (12.15%)
+            const TAXA_META = 0.1215;
+
             // Inputs Meta
-            const invMeta = parseFloat(document.getElementById('inv_meta').value) || 0;
+            const invMetaBruto = parseFloat(document.getElementById('inv_meta').value) || 0;
+            const invMetaLiquido = invMetaBruto * (1 - TAXA_META);
+            
+            // Mostrar investimento líquido na UI
+            document.getElementById('meta_liquido').innerText = formatCurrency(invMetaLiquido);
+
             const cplMeta = parseFloat(document.getElementById('cpl_meta').value) || 1;
             const agendMeta = parseFloat(document.getElementById('agend_meta').value) / 100;
             const convMeta = parseFloat(document.getElementById('conv_meta').value) / 100;
@@ -338,8 +348,8 @@
             const ticketMedio = parseFloat(document.getElementById('ticketMedio').value) || 0;
             document.getElementById('valPresenca').innerText = (taxaPresenca * 100).toFixed(0) + '%';
 
-            // Cálculos Meta
-            const leadsMeta = Math.floor(invMeta / cplMeta);
+            // Cálculos Meta (Baseados no Líquido para anúncios)
+            const leadsMeta = Math.floor(invMetaLiquido / cplMeta);
             const agendadosMeta = Math.floor(leadsMeta * agendMeta);
             const presencasMeta = Math.floor(agendadosMeta * taxaPresenca);
             const vendasMeta = Math.floor(presencasMeta * convMeta);
@@ -352,17 +362,17 @@
             const vendasGoogle = Math.floor(presencasGoogle * convGoogle);
             const faturamentoGoogle = vendasGoogle * ticketMedio;
 
-            // Consolidação Blended
-            const totalInvestimento = invMeta + invGoogle;
+            // Consolidação Blended (Cálculo de ROI baseado no Investimento BRUTO total)
+            const totalInvestimentoBruto = invMetaBruto + invGoogle;
             const totalLeads = leadsMeta + leadsGoogle;
             const totalAgendados = agendadosMeta + agendadosGoogle;
             const totalPresencas = presencasMeta + presencasGoogle;
             const totalVendas = vendasMeta + vendasGoogle;
             const totalFaturamento = totalVendas * ticketMedio;
 
-            const roiPercent = totalInvestimento > 0 ? ((totalFaturamento - totalInvestimento) / totalInvestimento) * 100 : 0;
-            const cacBlended = totalVendas > 0 ? totalInvestimento / totalVendas : 0;
-            const breakeven = ticketMedio > 0 ? Math.ceil(totalInvestimento / ticketMedio) : 0;
+            const roiPercent = totalInvestimentoBruto > 0 ? ((totalFaturamento - totalInvestimentoBruto) / totalInvestimentoBruto) * 100 : 0;
+            const cacBlended = totalVendas > 0 ? totalInvestimentoBruto / totalVendas : 0;
+            const breakeven = ticketMedio > 0 ? Math.ceil(totalInvestimentoBruto / ticketMedio) : 0;
 
             // Atualizar UI Resumo
             document.getElementById('faturamentoTotal').innerText = formatCurrency(totalFaturamento);
@@ -375,7 +385,7 @@
             document.getElementById('funnel-agendados').innerHTML = `Agendados: ${totalAgendados}<br><span>(${(totalLeads > 0 ? (totalAgendados/totalLeads)*100 : 0).toFixed(0)}% Agendamento Médio)</span>`;
             document.getElementById('funnel-avaliacoes').innerHTML = `Avaliações: ${totalPresencas}<br><span>(${(totalAgendados > 0 ? (totalPresencas/totalAgendados)*100 : 0).toFixed(0)}% Presença Geral)</span>`;
             document.getElementById('funnel-vendas').innerHTML = `Fechamentos: ${totalVendas}<br><span>(${(totalPresencas > 0 ? (totalVendas/totalPresencas)*100 : 0).toFixed(0)}% Conversão Média)</span>`;
-            document.getElementById('funnel-roi').innerHTML = `RETORNO: ${(totalFaturamento / (totalInvestimento || 1)).toFixed(1)}x<br><span>Escala Multi-Canal</span>`;
+            document.getElementById('funnel-roi').innerHTML = `RETORNO: ${(totalFaturamento / (totalInvestimentoBruto || 1)).toFixed(1)}x<br><span>Escala Multi-Canal</span>`;
 
             // KPIs Inferiores
             document.getElementById('cac').innerText = formatCurrency(cacBlended);
@@ -383,7 +393,7 @@
             document.getElementById('breakeven').innerText = breakeven + ' pac.';
             document.getElementById('ltvcac').innerText = cacBlended > 0 ? (ticketMedio / cacBlended).toFixed(1) : '0';
 
-            updateChart(invMeta, faturamentoMeta, invGoogle, faturamentoGoogle);
+            updateChart(invMetaBruto, faturamentoMeta, invGoogle, faturamentoGoogle);
         }
 
         function updateChart(invM, fatM, invG, fatG) {
@@ -399,7 +409,7 @@
                     labels: ['META ADS', 'GOOGLE ADS'],
                     datasets: [
                         {
-                            label: 'Investimento',
+                            label: 'Investimento Bruto',
                             data: [invM, invG],
                             backgroundColor: '#333',
                             borderRadius: 5
