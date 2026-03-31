@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sato 7 Performance - Calculadora de Retorno</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --blood-red: #8B0000;
+            --dark-red: #4a0000;
+            --pure-black: #050505;
+        }
+
+        body {
+            background-color: var(--pure-black);
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .bg-blood-gradient {
+            background: linear-gradient(135deg, var(--blood-red) 0%, var(--dark-red) 100%);
+        }
+
+        .border-blood {
+            border-color: var(--blood-red);
+        }
+
+        .text-blood {
+            color: var(--blood-red);
+        }
+
+        /* Funnel Styling */
+        .funnel-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            margin-top: 2rem;
+        }
+
+        .funnel-step {
+            height: 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            position: relative;
+            clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%);
+            border: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+
+        .funnel-step span {
+            font-size: 0.75rem;
+            font-weight: normal;
+            opacity: 0.9;
+        }
+
+        .step-1 { width: 100%; background: #8B0000; }
+        .step-2 { width: 85%; background: #7a0000; }
+        .step-3 { width: 70%; background: #6a0000; }
+        .step-4 { width: 55%; background: #5a0000; }
+        .step-5 { width: 40%; background: #4a0000; }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            background: white;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(139, 0, 0, 0.3);
+        }
+
+        .manual-grid dt {
+            color: var(--blood-red);
+            font-weight: bold;
+            margin-top: 1rem;
+        }
+        .manual-grid dd {
+            color: #9ca3af;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-6xl mx-auto">
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row justify-between items-center mb-10 border-b border-blood pb-6">
+            <div>
+                <h1 class="text-4xl font-extrabold tracking-tighter italic">SATO <span class="text-blood">7 PERFORMANCE</span></h1>
+                <p class="text-gray-400 uppercase tracking-widest text-sm">Calculadora de Gestão Odontológica Premium</p>
+            </div>
+            <div class="mt-4 md:mt-0 text-right">
+                <span class="bg-blood-gradient px-4 py-2 rounded-full text-xs font-bold uppercase">Implantodontia de Alta Conversão</span>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Inputs -->
+            <div class="lg:col-span-1 space-y-6">
+                <div class="card p-6 rounded-2xl">
+                    <h2 class="text-xl font-bold mb-6 flex items-center">
+                        <svg class="w-5 h-5 mr-2 text-blood" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"></path></svg>
+                        Parâmetros da Clínica
+                    </h2>
+
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-1">Investimento Total (R$)</label>
+                            <input type="number" id="investimento" value="5000" class="w-full bg-black border border-gray-700 p-3 rounded focus:border-blood outline-none transition-colors" oninput="calculate()">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-1">Custo por Lead (R$)</label>
+                            <input type="number" id="cpl" value="25" class="w-full bg-black border border-gray-700 p-3 rounded focus:border-blood outline-none transition-colors" oninput="calculate()">
+                        </div>
+
+                        <hr class="border-gray-800 my-4">
+
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-1">Taxa Agendamento (%)</label>
+                            <input type="range" id="taxaAgendamento" min="0" max="100" value="40" class="w-full h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-red-600" oninput="calculate()">
+                            <span id="valTaxaAgendamento" class="text-xs text-blood">40%</span>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-1">Taxa Comparecimento (%)</label>
+                            <input type="range" id="taxaComparecimento" min="0" max="100" value="60" class="w-full h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-red-600" oninput="calculate()">
+                            <span id="valTaxaComparecimento" class="text-xs text-blood">60%</span>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-1">Taxa Conversão (Fechamento %)</label>
+                            <input type="range" id="taxaConversao" min="0" max="100" value="20" class="w-full h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-red-600" oninput="calculate()">
+                            <span id="valTaxaConversao" class="text-xs text-blood">20%</span>
+                        </div>
+
+                        <hr class="border-gray-800 my-4">
+
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-1">Ticket Médio (R$)</label>
+                            <input type="number" id="ticketMedio" value="4500" class="w-full bg-black border border-gray-700 p-3 rounded focus:border-blood outline-none transition-colors" oninput="calculate()">
+                            <p class="text-[10px] text-gray-500 mt-1">* Valor médio dos contratos de implantes/protocolos.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Central -->
+            <div class="lg:col-span-2 space-y-6">
+                
+                <!-- KPIs de Resumo -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                    <div class="card p-4 rounded-2xl border-b-4 border-b-blood">
+                        <p class="text-gray-400 text-xs uppercase">Faturamento Estimado</p>
+                        <h3 id="faturamentoTotal" class="text-2xl font-bold text-white mt-1">R$ 0,00</h3>
+                    </div>
+                    <div class="card p-4 rounded-2xl border-b-4 border-b-white">
+                        <p class="text-gray-400 text-xs uppercase">Lucro Bruto</p>
+                        <h3 id="lucroBruto" class="text-2xl font-bold text-white mt-1">R$ 0,00</h3>
+                    </div>
+                    <div class="card p-4 rounded-2xl border-b-4 border-b-blood">
+                        <p class="text-gray-400 text-xs uppercase">ROI (Retorno)</p>
+                        <h3 id="roiFinal" class="text-2xl font-bold text-blood mt-1">0%</h3>
+                    </div>
+                </div>
+
+                <!-- Funil de Vendas -->
+                <div class="card p-8 rounded-2xl">
+                    <h2 class="text-xl font-bold mb-2 text-center uppercase tracking-widest">Funil de Conversão Sato 7</h2>
+                    <p class="text-center text-gray-500 text-sm mb-8 text-balance">Métricas de volume e taxas de conversão por etapa.</p>
+                    
+                    <div class="funnel-container">
+                        <div class="funnel-step step-1" id="funnel-leads">Leads: 0<br><span>(Base 100%)</span></div>
+                        <div class="funnel-step step-2" id="funnel-agendados">Agendados: 0<br><span>(0% de Agendamento)</span></div>
+                        <div class="funnel-step step-3" id="funnel-avaliacoes">Avaliações: 0<br><span>(0% de Presença)</span></div>
+                        <div class="funnel-step step-4" id="funnel-vendas">Fechamentos: 0<br><span>(0% de Conversão)</span></div>
+                        <div class="funnel-step step-5" id="funnel-roi">RESULTADO: 0x<br><span>Fator de Multiplicação</span></div>
+                    </div>
+
+                    <div class="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4 pt-6 border-t border-gray-800">
+                        <div class="text-center">
+                            <p class="text-gray-500 text-[10px] uppercase">Custo por Paciente (CAC)</p>
+                            <p id="cac" class="font-bold text-lg text-white">R$ 0,00</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-gray-500 text-[10px] uppercase">Contratos Fechados</p>
+                            <p id="pacientesTotal" class="font-bold text-lg text-white">0</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-gray-500 text-[10px] uppercase">Breakeven</p>
+                            <p id="breakeven" class="font-bold text-lg text-white">0 pac.</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-gray-500 text-[10px] uppercase">Eficiência do Funil</p>
+                            <p id="eficiencia" class="font-bold text-lg text-blood">0%</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gráfico Comparativo -->
+                <div class="card p-6 rounded-2xl h-[300px]">
+                    <canvas id="roiChart"></canvas>
+                </div>
+
+                <!-- Manual de Métricas -->
+                <div class="card p-8 rounded-2xl mt-8">
+                    <h2 class="text-xl font-bold mb-4 border-b border-blood pb-2 uppercase tracking-tight italic">Manual de Métricas Sato 7 Performance</h2>
+                    <dl class="manual-grid grid grid-cols-1 md:grid-cols-2 gap-x-8">
+                        <div>
+                            <dt>Investimento Total</dt>
+                            <dd>O capital total destinado a anúncios (Facebook, Instagram, Google). É o combustível do seu funil.</dd>
+                            
+                            <dt>CPL (Custo por Lead)</dt>
+                            <dd>O valor pago para cada contato interessado que chega no seu WhatsApp ou CRM.</dd>
+                            
+                            <dt>Taxa de Agendamento</dt>
+                            <dd>Mede a eficiência da sua recepção/comercial em transformar um contato em uma consulta marcada.</dd>
+                            
+                            <dt>Taxa de Comparecimento</dt>
+                            <dd>Mede o compromisso do lead. Se estiver baixa, indica problemas de confirmação ou qualidade do público.</dd>
+                        </div>
+                        <div>
+                            <dt>Taxa de Conversão (Fechamento)</dt>
+                            <dd>A habilidade do dentista avaliador em transformar um orçamento em um contrato assinado.</dd>
+                            
+                            <dt>CAC (Custo de Aquisição)</dt>
+                            <dd>Quanto você gastou em anúncios para trazer exatamente UM paciente pagante. Deve ser sempre menor que seu lucro por venda.</dd>
+                            
+                            <dt>ROI (Return on Investment)</dt>
+                            <dd>A porcentagem de retorno. 500% de ROI significa que para cada R$ 1,00 investido, voltaram R$ 5,00 em faturamento.</dd>
+                            
+                            <dt>Ponto de Equilíbrio (Breakeven)</dt>
+                            <dd>Quantos pacientes você precisa fechar apenas para "pagar" o investimento em anúncios do mês.</dd>
+                        </div>
+                    </dl>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="mt-12 text-center text-gray-600 text-xs pb-10">
+            <p>© 2024 - Sato 7 Performance & Oral Sin Implantes. Exclusivo para gestão de alta performance.</p>
+        </div>
+    </div>
+
+    <script>
+        let myChart;
+
+        function formatCurrency(value) {
+            return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        }
+
+        function calculate() {
+            // Inputs
+            const investimento = parseFloat(document.getElementById('investimento').value) || 0;
+            const cpl = parseFloat(document.getElementById('cpl').value) || 1;
+            const taxaAgendamento = parseFloat(document.getElementById('taxaAgendamento').value) / 100;
+            const taxaComparecimento = parseFloat(document.getElementById('taxaComparecimento').value) / 100;
+            const taxaConversao = parseFloat(document.getElementById('taxaConversao').value) / 100;
+            const ticketMedio = parseFloat(document.getElementById('ticketMedio').value) || 0;
+
+            // Atualizar labels dos sliders
+            document.getElementById('valTaxaAgendamento').innerText = (taxaAgendamento * 100).toFixed(0) + '%';
+            document.getElementById('valTaxaComparecimento').innerText = (taxaComparecimento * 100).toFixed(0) + '%';
+            document.getElementById('valTaxaConversao').innerText = (taxaConversao * 100).toFixed(0) + '%';
+
+            // Cálculos do Funil
+            const leads = Math.floor(investimento / cpl);
+            const agendados = Math.floor(leads * taxaAgendamento);
+            const avaliacoes = Math.floor(agendados * taxaComparecimento);
+            const vendas = Math.floor(avaliacoes * taxaConversao);
+
+            // Resultados Financeiros
+            const faturamentoTotal = vendas * ticketMedio;
+            const lucroBruto = faturamentoTotal - investimento;
+            const roiPercent = investimento > 0 ? (lucroBruto / investimento) * 100 : 0;
+            const cac = vendas > 0 ? investimento / vendas : 0;
+            const breakeven = ticketMedio > 0 ? Math.ceil(investimento / ticketMedio) : 0;
+            const eficiencia = leads > 0 ? (vendas / leads) * 100 : 0;
+
+            // Atualizar UI Resumo
+            document.getElementById('faturamentoTotal').innerText = formatCurrency(faturamentoTotal);
+            document.getElementById('lucroBruto').innerText = formatCurrency(lucroBruto);
+            document.getElementById('roiFinal').innerText = roiPercent.toFixed(0) + '%';
+            
+            // Atualizar Funil com Porcentagens
+            document.getElementById('funnel-leads').innerHTML = `Leads: ${leads}<br><span>(Base 100%)</span>`;
+            document.getElementById('funnel-agendados').innerHTML = `Agendados: ${agendados}<br><span>(${(taxaAgendamento * 100).toFixed(0)}% de Agendamento)</span>`;
+            document.getElementById('funnel-avaliacoes').innerHTML = `Avaliações: ${avaliacoes}<br><span>(${(taxaComparecimento * 100).toFixed(0)}% de Presença)</span>`;
+            document.getElementById('funnel-vendas').innerHTML = `Fechamentos: ${vendas}<br><span>(${(taxaConversao * 100).toFixed(0)}% de Conversão)</span>`;
+            document.getElementById('funnel-roi').innerHTML = `RESULTADO: ${(faturamentoTotal / (investimento || 1)).toFixed(1)}x<br><span>Retorno p/ cada R$ 1</span>`;
+
+            // KPIs Inferiores
+            document.getElementById('cac').innerText = formatCurrency(cac);
+            document.getElementById('pacientesTotal').innerText = vendas;
+            document.getElementById('breakeven').innerText = breakeven + ' pac.';
+            document.getElementById('eficiencia').innerText = eficiencia.toFixed(1) + '%';
+
+            updateChart(investimento, faturamentoTotal);
+        }
+
+        function updateChart(invest, fat) {
+            const ctx = document.getElementById('roiChart').getContext('2d');
+            
+            if (myChart) {
+                myChart.destroy();
+            }
+
+            myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Investimento Publicitário', 'Faturamento Bruto'],
+                    datasets: [{
+                        label: 'Valores em R$',
+                        data: [invest, fat],
+                        backgroundColor: ['#333', '#8B0000'],
+                        borderColor: ['#555', '#4a0000'],
+                        borderWidth: 1,
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: 'rgba(255,255,255,0.05)' },
+                            ticks: { color: '#888' }
+                        },
+                        x: {
+                            ticks: { color: '#888' }
+                        }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculate;
+    </script>
+</body>
+</html>
