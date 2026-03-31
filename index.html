@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sato 7 Performance - Calculadora de Retorno</title>
+    <title>Sato 7 Performance - Calculadora Multi-Plataforma</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -23,15 +23,10 @@
             background: linear-gradient(135deg, var(--blood-red) 0%, var(--dark-red) 100%);
         }
 
-        .border-blood {
-            border-color: var(--blood-red);
-        }
-
         .text-blood {
             color: var(--blood-red);
         }
 
-        /* Funnel Styling */
         .funnel-container {
             display: flex;
             flex-direction: column;
@@ -66,148 +61,177 @@
         .step-4 { width: 55%; background: #5a0000; }
         .step-5 { width: 40%; background: #4a0000; }
 
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 18px;
-            height: 18px;
-            background: white;
-            cursor: pointer;
-            border-radius: 50%;
-        }
-
         .card {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(139, 0, 0, 0.3);
         }
 
+        input[type="range"] {
+            accent-color: var(--blood-red);
+        }
+
         .manual-grid dt {
             color: var(--blood-red);
             font-weight: bold;
             margin-top: 1rem;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
         }
         .manual-grid dd {
             color: #9ca3af;
             font-size: 0.875rem;
             margin-bottom: 0.5rem;
+            line-height: 1.4;
         }
     </style>
 </head>
 <body class="p-4 md:p-8">
 
-    <div class="max-w-6xl mx-auto">
+    <div class="max-w-7xl mx-auto">
         <!-- Header -->
-        <div class="flex flex-col md:flex-row justify-between items-center mb-10 border-b border-blood pb-6">
+        <div class="flex flex-col md:flex-row justify-between items-center mb-10 border-b border-[#8B0000] pb-6">
             <div>
-                <h1 class="text-4xl font-extrabold tracking-tighter italic">SATO <span class="text-blood">7 PERFORMANCE</span></h1>
-                <p class="text-gray-400 uppercase tracking-widest text-sm">Calculadora de Gestão Odontológica Premium</p>
+                <h1 class="text-4xl font-extrabold tracking-tighter italic uppercase">Sato <span class="text-blood">7 Performance</span></h1>
+                <p class="text-gray-400 uppercase tracking-widest text-sm">Estratégia de Tráfego e Conversão Consolidada</p>
             </div>
-            <div class="mt-4 md:mt-0 text-right">
-                <span class="bg-blood-gradient px-4 py-2 rounded-full text-xs font-bold uppercase">Implantodontia de Alta Conversão</span>
+            <div class="mt-4 md:mt-0">
+                <span class="bg-blood-gradient px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest">Análise Multi-Canal</span>
             </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
             
-            <!-- Inputs -->
-            <div class="lg:col-span-1 space-y-6">
-                <div class="card p-6 rounded-2xl">
-                    <h2 class="text-xl font-bold mb-6 flex items-center">
-                        <svg class="w-5 h-5 mr-2 text-blood" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"></path></svg>
-                        Parâmetros da Clínica
+            <!-- Configurações das Plataformas -->
+            <div class="lg:col-span-4 space-y-6">
+                
+                <!-- Meta Ads -->
+                <div class="card p-5 rounded-2xl border-l-4 border-l-blue-600">
+                    <h2 class="text-lg font-bold mb-4 flex items-center justify-between">
+                        <span>Meta Ads (Face/Insta)</span>
+                        <svg class="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
                     </h2>
+                    <div class="space-y-3">
+                        <div>
+                            <label class="block text-[10px] text-gray-400 uppercase">Investimento (R$)</label>
+                            <input type="number" id="inv_meta" value="3000" class="w-full bg-black border border-gray-800 p-2 rounded text-sm outline-none focus:border-blue-600" oninput="calculate()">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] text-gray-400 uppercase">Custo por Lead (R$)</label>
+                            <input type="number" id="cpl_meta" value="15" class="w-full bg-black border border-gray-800 p-2 rounded text-sm outline-none focus:border-blue-600" oninput="calculate()">
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 pt-2">
+                            <div>
+                                <label class="block text-[10px] text-gray-400 uppercase">Agendam. %</label>
+                                <input type="number" id="agend_meta" value="30" class="w-full bg-black border border-gray-800 p-2 rounded text-sm outline-none" oninput="calculate()">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] text-gray-400 uppercase">Fechamento %</label>
+                                <input type="number" id="conv_meta" value="15" class="w-full bg-black border border-gray-800 p-2 rounded text-sm outline-none" oninput="calculate()">
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
+                <!-- Google Ads -->
+                <div class="card p-5 rounded-2xl border-l-4 border-l-green-600">
+                    <h2 class="text-lg font-bold mb-4 flex items-center justify-between">
+                        <span>Google Ads (Busca)</span>
+                        <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12.48 10.92v3.28h7.84c-.24 1.84-.908 3.152-1.928 4.176-1.288 1.288-3.312 2.552-7.12 2.552-6.128 0-10.872-4.912-10.872-11.04s4.744-11.04 10.872-11.04c3.312 0 5.632 1.312 7.416 3.032l2.304-2.304c-2.008-1.92-5.184-3.416-9.72-3.416-8.248 0-15.04 6.728-15.04 15.04s6.792 15.04 15.04 15.04c4.472 0 7.856-1.472 10.512-4.24 2.744-2.744 3.608-6.592 3.608-9.592 0-.912-.08-1.76-.224-2.552h-13.912z"/></svg>
+                    </h2>
+                    <div class="space-y-3">
+                        <div>
+                            <label class="block text-[10px] text-gray-400 uppercase">Investimento (R$)</label>
+                            <input type="number" id="inv_google" value="2000" class="w-full bg-black border border-gray-800 p-2 rounded text-sm outline-none focus:border-green-600" oninput="calculate()">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] text-gray-400 uppercase">Custo por Lead (R$)</label>
+                            <input type="number" id="cpl_google" value="45" class="w-full bg-black border border-gray-800 p-2 rounded text-sm outline-none focus:border-green-600" oninput="calculate()">
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 pt-2">
+                            <div>
+                                <label class="block text-[10px] text-gray-400 uppercase">Agendam. %</label>
+                                <input type="number" id="agend_google" value="50" class="w-full bg-black border border-gray-800 p-2 rounded text-sm outline-none" oninput="calculate()">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] text-gray-400 uppercase">Fechamento %</label>
+                                <input type="number" id="conv_google" value="25" class="w-full bg-black border border-gray-800 p-2 rounded text-sm outline-none" oninput="calculate()">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Global Params -->
+                <div class="card p-5 rounded-2xl">
+                    <h2 class="text-sm font-bold mb-4 uppercase text-gray-400 italic">Parâmetros Operacionais</h2>
                     <div class="space-y-4">
                         <div>
-                            <label class="block text-sm text-gray-400 mb-1">Investimento Total (R$)</label>
-                            <input type="number" id="investimento" value="5000" class="w-full bg-black border border-gray-700 p-3 rounded focus:border-blood outline-none transition-colors" oninput="calculate()">
+                            <label class="block text-[10px] text-gray-400 uppercase">Taxa de Presença Geral (Comparecimento %)</label>
+                            <input type="range" id="taxaPresenca" min="0" max="100" value="60" class="w-full h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer" oninput="calculate()">
+                            <span id="valPresenca" class="text-[10px] text-blood">60%</span>
                         </div>
-
                         <div>
-                            <label class="block text-sm text-gray-400 mb-1">Custo por Lead (R$)</label>
-                            <input type="number" id="cpl" value="25" class="w-full bg-black border border-gray-700 p-3 rounded focus:border-blood outline-none transition-colors" oninput="calculate()">
-                        </div>
-
-                        <hr class="border-gray-800 my-4">
-
-                        <div>
-                            <label class="block text-sm text-gray-400 mb-1">Taxa Agendamento (%)</label>
-                            <input type="range" id="taxaAgendamento" min="0" max="100" value="40" class="w-full h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-red-600" oninput="calculate()">
-                            <span id="valTaxaAgendamento" class="text-xs text-blood">40%</span>
-                        </div>
-
-                        <div>
-                            <label class="block text-sm text-gray-400 mb-1">Taxa Comparecimento (%)</label>
-                            <input type="range" id="taxaComparecimento" min="0" max="100" value="60" class="w-full h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-red-600" oninput="calculate()">
-                            <span id="valTaxaComparecimento" class="text-xs text-blood">60%</span>
-                        </div>
-
-                        <div>
-                            <label class="block text-sm text-gray-400 mb-1">Taxa Conversão (Fechamento %)</label>
-                            <input type="range" id="taxaConversao" min="0" max="100" value="20" class="w-full h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-red-600" oninput="calculate()">
-                            <span id="valTaxaConversao" class="text-xs text-blood">20%</span>
-                        </div>
-
-                        <hr class="border-gray-800 my-4">
-
-                        <div>
-                            <label class="block text-sm text-gray-400 mb-1">Ticket Médio (R$)</label>
-                            <input type="number" id="ticketMedio" value="4500" class="w-full bg-black border border-gray-700 p-3 rounded focus:border-blood outline-none transition-colors" oninput="calculate()">
-                            <p class="text-[10px] text-gray-500 mt-1">* Valor médio dos contratos de implantes/protocolos.</p>
+                            <label class="block text-[10px] text-gray-400 uppercase">Ticket Médio Consolidado (R$)</label>
+                            <input type="number" id="ticketMedio" value="4800" class="w-full bg-black border border-gray-800 p-2 rounded text-sm outline-none focus:border-blood" oninput="calculate()">
                         </div>
                     </div>
                 </div>
+
             </div>
 
-            <!-- Dashboard Central -->
-            <div class="lg:col-span-2 space-y-6">
+            <!-- Dashboard Central Consolidado -->
+            <div class="lg:col-span-8 space-y-6">
                 
-                <!-- KPIs de Resumo -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                <!-- KPIs de Resumo Blended -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-center">
                     <div class="card p-4 rounded-2xl border-b-4 border-b-blood">
-                        <p class="text-gray-400 text-xs uppercase">Faturamento Estimado</p>
-                        <h3 id="faturamentoTotal" class="text-2xl font-bold text-white mt-1">R$ 0,00</h3>
+                        <p class="text-gray-400 text-[10px] uppercase">Faturamento Total</p>
+                        <h3 id="faturamentoTotal" class="text-xl font-bold text-white mt-1">R$ 0,00</h3>
                     </div>
                     <div class="card p-4 rounded-2xl border-b-4 border-b-white">
-                        <p class="text-gray-400 text-xs uppercase">Lucro Bruto</p>
-                        <h3 id="lucroBruto" class="text-2xl font-bold text-white mt-1">R$ 0,00</h3>
+                        <p class="text-gray-400 text-[10px] uppercase">ROI Blended</p>
+                        <h3 id="roiFinal" class="text-xl font-bold text-white mt-1">0%</h3>
                     </div>
-                    <div class="card p-4 rounded-2xl border-b-4 border-b-blood">
-                        <p class="text-gray-400 text-xs uppercase">ROI (Retorno)</p>
-                        <h3 id="roiFinal" class="text-2xl font-bold text-blood mt-1">0%</h3>
+                    <div class="card p-4 rounded-2xl border-b-4 border-b-blue-600">
+                        <p class="text-gray-400 text-[10px] uppercase">Eficiência Meta</p>
+                        <h3 id="effMeta" class="text-xl font-bold text-blue-500 mt-1">0%</h3>
+                    </div>
+                    <div class="card p-4 rounded-2xl border-b-4 border-b-green-600">
+                        <p class="text-gray-400 text-[10px] uppercase">Eficiência Google</p>
+                        <h3 id="effGoogle" class="text-xl font-bold text-green-500 mt-1">0%</h3>
                     </div>
                 </div>
 
-                <!-- Funil de Vendas -->
+                <!-- Funil Consolidado -->
                 <div class="card p-8 rounded-2xl">
-                    <h2 class="text-xl font-bold mb-2 text-center uppercase tracking-widest">Funil de Conversão Sato 7</h2>
-                    <p class="text-center text-gray-500 text-sm mb-8 text-balance">Métricas de volume e taxas de conversão por etapa.</p>
+                    <h2 class="text-xl font-bold mb-2 text-center uppercase tracking-widest italic">Funil de Conversão Sato 7 (Consolidado)</h2>
+                    <p class="text-center text-gray-500 text-sm mb-8">Performance integrada (Meta + Google).</p>
                     
                     <div class="funnel-container">
-                        <div class="funnel-step step-1" id="funnel-leads">Leads: 0<br><span>(Base 100%)</span></div>
-                        <div class="funnel-step step-2" id="funnel-agendados">Agendados: 0<br><span>(0% de Agendamento)</span></div>
-                        <div class="funnel-step step-3" id="funnel-avaliacoes">Avaliações: 0<br><span>(0% de Presença)</span></div>
-                        <div class="funnel-step step-4" id="funnel-vendas">Fechamentos: 0<br><span>(0% de Conversão)</span></div>
-                        <div class="funnel-step step-5" id="funnel-roi">RESULTADO: 0x<br><span>Fator de Multiplicação</span></div>
+                        <div class="funnel-step step-1" id="funnel-leads">Leads Totais: 0<br><span>(Meta + Google)</span></div>
+                        <div class="funnel-step step-2" id="funnel-agendados">Agendados: 0<br><span>(0% Agendamento Médio)</span></div>
+                        <div class="funnel-step step-3" id="funnel-avaliacoes">Avaliações: 0<br><span>(0% Presença)</span></div>
+                        <div class="funnel-step step-4" id="funnel-vendas">Fechamentos: 0<br><span>(0% Conversão Média)</span></div>
+                        <div class="funnel-step step-5" id="funnel-roi">RETORNO: 0x<br><span>Faturamento / Investimento</span></div>
                     </div>
 
                     <div class="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4 pt-6 border-t border-gray-800">
                         <div class="text-center">
-                            <p class="text-gray-500 text-[10px] uppercase">Custo por Paciente (CAC)</p>
+                            <p class="text-gray-500 text-[10px] uppercase">CAC Blended</p>
                             <p id="cac" class="font-bold text-lg text-white">R$ 0,00</p>
                         </div>
                         <div class="text-center">
-                            <p class="text-gray-500 text-[10px] uppercase">Contratos Fechados</p>
+                            <p class="text-gray-500 text-[10px] uppercase">Contratos Totais</p>
                             <p id="pacientesTotal" class="font-bold text-lg text-white">0</p>
                         </div>
                         <div class="text-center">
-                            <p class="text-gray-500 text-[10px] uppercase">Breakeven</p>
+                            <p class="text-gray-500 text-[10px] uppercase">Ponto de Equilíbrio</p>
                             <p id="breakeven" class="font-bold text-lg text-white">0 pac.</p>
                         </div>
                         <div class="text-center">
-                            <p class="text-gray-500 text-[10px] uppercase">Eficiência do Funil</p>
-                            <p id="eficiencia" class="font-bold text-lg text-blood">0%</p>
+                            <p class="text-gray-500 text-[10px] uppercase">LTV/CAC</p>
+                            <p id="ltvcac" class="font-bold text-lg text-blood">0</p>
                         </div>
                     </div>
                 </div>
@@ -217,37 +241,67 @@
                     <canvas id="roiChart"></canvas>
                 </div>
 
-                <!-- Manual de Métricas -->
+                <!-- Manual de Métricas Unificado -->
                 <div class="card p-8 rounded-2xl mt-8">
-                    <h2 class="text-xl font-bold mb-4 border-b border-blood pb-2 uppercase tracking-tight italic">Manual de Métricas Sato 7 Performance</h2>
-                    <dl class="manual-grid grid grid-cols-1 md:grid-cols-2 gap-x-8">
+                    <h2 class="text-xl font-bold mb-6 border-b border-blood pb-2 uppercase tracking-tight italic">Manual de Métricas Sato 7 Performance</h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div>
-                            <dt>Investimento Total</dt>
-                            <dd>O capital total destinado a anúncios (Facebook, Instagram, Google). É o combustível do seu funil.</dd>
-                            
-                            <dt>CPL (Custo por Lead)</dt>
-                            <dd>O valor pago para cada contato interessado que chega no seu WhatsApp ou CRM.</dd>
-                            
-                            <dt>Taxa de Agendamento</dt>
-                            <dd>Mede a eficiência da sua recepção/comercial em transformar um contato em uma consulta marcada.</dd>
-                            
-                            <dt>Taxa de Comparecimento</dt>
-                            <dd>Mede o compromisso do lead. Se estiver baixa, indica problemas de confirmação ou qualidade do público.</dd>
+                            <h3 class="text-blood font-bold uppercase text-xs mb-2">Fundamentos de Tráfego</h3>
+                            <dl class="manual-grid">
+                                <dt>Investimento Total</dt>
+                                <dd>Capital mensal injetado nas plataformas. É o "combustível" que gera os leads.</dd>
+                                
+                                <dt>CPL (Custo por Lead)</dt>
+                                <dd>Quanto você paga por cada pessoa que entra em contato. Meta costuma ter CPL menor, Google maior.</dd>
+                                
+                                <dt>Meta vs Google</dt>
+                                <dd>Google Ads é "Intenção": o lead está buscando ativamente. Meta Ads é "Atenção": impactamos o lead por um criativo visual.</dd>
+                            </dl>
                         </div>
+
                         <div>
-                            <dt>Taxa de Conversão (Fechamento)</dt>
-                            <dd>A habilidade do dentista avaliador em transformar um orçamento em um contrato assinado.</dd>
-                            
-                            <dt>CAC (Custo de Aquisição)</dt>
-                            <dd>Quanto você gastou em anúncios para trazer exatamente UM paciente pagante. Deve ser sempre menor que seu lucro por venda.</dd>
-                            
-                            <dt>ROI (Return on Investment)</dt>
-                            <dd>A porcentagem de retorno. 500% de ROI significa que para cada R$ 1,00 investido, voltaram R$ 5,00 em faturamento.</dd>
-                            
-                            <dt>Ponto de Equilíbrio (Breakeven)</dt>
-                            <dd>Quantos pacientes você precisa fechar apenas para "pagar" o investimento em anúncios do mês.</dd>
+                            <h3 class="text-blood font-bold uppercase text-xs mb-2">Processo Comercial</h3>
+                            <dl class="manual-grid">
+                                <dt>Taxa de Agendamento</dt>
+                                <dd>Mede a eficiência do seu comercial em marcar consultas a partir dos leads recebidos.</dd>
+                                
+                                <dt>Taxa de Presença (Show-up)</dt>
+                                <dd>Porcentagem de agendados que realmente comparecem à avaliação clínica.</dd>
+                                
+                                <dt>Taxa de Fechamento (Conversão)</dt>
+                                <dd>A eficiência do dentista avaliador em transformar o orçamento em contrato assinado. Google costuma ter uma taxa de fechamento maior que o Meta.</dd>
+                            </dl>
                         </div>
-                    </dl>
+
+                        <div>
+                            <h3 class="text-blood font-bold uppercase text-xs mb-2">Análise de Performance</h3>
+                            <dl class="manual-grid">
+                                <dt>CAC Blended</dt>
+                                <dd>Custo de Aquisição de Cliente médio, somando todos os canais. É o seu custo real por novo paciente.</dd>
+                                
+                                <dt>Eficiência por Canal</dt>
+                                <dd>Taxa final de conversão de lead em venda por plataforma. Indica onde o seu dinheiro rende mais contratos.</dd>
+                                
+                                <dt>ROI Blended</dt>
+                                <dd>O lucro gerado sobre o investimento total. Essencial para medir a saúde financeira da clínica.</dd>
+                            </dl>
+                        </div>
+
+                        <div>
+                            <h3 class="text-blood font-bold uppercase text-xs mb-2">Métricas de Escala</h3>
+                            <dl class="manual-grid">
+                                <dt>LTV/CAC</dt>
+                                <dd>Relação entre o valor que o paciente traz (LTV) e o custo para trazê-lo (CAC). Ideal acima de 3.</dd>
+                                
+                                <dt>Ponto de Equilíbrio (Breakeven)</dt>
+                                <dd>Número mínimo de contratos que a clínica precisa fechar para "empatar" o investimento em anúncios.</dd>
+                                
+                                <dt>Multiplicador (Fator x)</dt>
+                                <dd>Quantas vezes o faturamento superou o investimento (ex: 5x significa faturar R$ 5 para cada R$ 1 investido).</dd>
+                            </dl>
+                        </div>
+                    </div>
                 </div>
 
             </div>
@@ -255,7 +309,7 @@
 
         <!-- Footer -->
         <div class="mt-12 text-center text-gray-600 text-xs pb-10">
-            <p>© 2024 - Sato 7 Performance & Oral Sin Implantes. Exclusivo para gestão de alta performance.</p>
+            <p>© 2024 - Sato 7 Performance & Multi-Channel Optimization. Tecnologia para Clínicas de Elite.</p>
         </div>
     </div>
 
@@ -267,55 +321,72 @@
         }
 
         function calculate() {
-            // Inputs
-            const investimento = parseFloat(document.getElementById('investimento').value) || 0;
-            const cpl = parseFloat(document.getElementById('cpl').value) || 1;
-            const taxaAgendamento = parseFloat(document.getElementById('taxaAgendamento').value) / 100;
-            const taxaComparecimento = parseFloat(document.getElementById('taxaComparecimento').value) / 100;
-            const taxaConversao = parseFloat(document.getElementById('taxaConversao').value) / 100;
+            // Inputs Meta
+            const invMeta = parseFloat(document.getElementById('inv_meta').value) || 0;
+            const cplMeta = parseFloat(document.getElementById('cpl_meta').value) || 1;
+            const agendMeta = parseFloat(document.getElementById('agend_meta').value) / 100;
+            const convMeta = parseFloat(document.getElementById('conv_meta').value) / 100;
+
+            // Inputs Google
+            const invGoogle = parseFloat(document.getElementById('inv_google').value) || 0;
+            const cplGoogle = parseFloat(document.getElementById('cpl_google').value) || 1;
+            const agendGoogle = parseFloat(document.getElementById('agend_google').value) / 100;
+            const convGoogle = parseFloat(document.getElementById('conv_google').value) / 100;
+
+            // Globais
+            const taxaPresenca = parseFloat(document.getElementById('taxaPresenca').value) / 100;
             const ticketMedio = parseFloat(document.getElementById('ticketMedio').value) || 0;
+            document.getElementById('valPresenca').innerText = (taxaPresenca * 100).toFixed(0) + '%';
 
-            // Atualizar labels dos sliders
-            document.getElementById('valTaxaAgendamento').innerText = (taxaAgendamento * 100).toFixed(0) + '%';
-            document.getElementById('valTaxaComparecimento').innerText = (taxaComparecimento * 100).toFixed(0) + '%';
-            document.getElementById('valTaxaConversao').innerText = (taxaConversao * 100).toFixed(0) + '%';
+            // Cálculos Meta
+            const leadsMeta = Math.floor(invMeta / cplMeta);
+            const agendadosMeta = Math.floor(leadsMeta * agendMeta);
+            const presencasMeta = Math.floor(agendadosMeta * taxaPresenca);
+            const vendasMeta = Math.floor(presencasMeta * convMeta);
+            const faturamentoMeta = vendasMeta * ticketMedio;
 
-            // Cálculos do Funil
-            const leads = Math.floor(investimento / cpl);
-            const agendados = Math.floor(leads * taxaAgendamento);
-            const avaliacoes = Math.floor(agendados * taxaComparecimento);
-            const vendas = Math.floor(avaliacoes * taxaConversao);
+            // Cálculos Google
+            const leadsGoogle = Math.floor(invGoogle / cplGoogle);
+            const agendadosGoogle = Math.floor(leadsGoogle * agendGoogle);
+            const presencasGoogle = Math.floor(agendadosGoogle * taxaPresenca);
+            const vendasGoogle = Math.floor(presencasGoogle * convGoogle);
+            const faturamentoGoogle = vendasGoogle * ticketMedio;
 
-            // Resultados Financeiros
-            const faturamentoTotal = vendas * ticketMedio;
-            const lucroBruto = faturamentoTotal - investimento;
-            const roiPercent = investimento > 0 ? (lucroBruto / investimento) * 100 : 0;
-            const cac = vendas > 0 ? investimento / vendas : 0;
-            const breakeven = ticketMedio > 0 ? Math.ceil(investimento / ticketMedio) : 0;
-            const eficiencia = leads > 0 ? (vendas / leads) * 100 : 0;
+            // Consolidação Blended
+            const totalInvestimento = invMeta + invGoogle;
+            const totalLeads = leadsMeta + leadsGoogle;
+            const totalAgendados = agendadosMeta + agendadosGoogle;
+            const totalPresencas = presencasMeta + presencasGoogle;
+            const totalVendas = vendasMeta + vendasGoogle;
+            const totalFaturamento = totalVendas * ticketMedio;
+
+            const roiPercent = totalInvestimento > 0 ? ((totalFaturamento - totalInvestimento) / totalInvestimento) * 100 : 0;
+            const cacBlended = totalVendas > 0 ? totalInvestimento / totalVendas : 0;
+            const breakeven = ticketMedio > 0 ? Math.ceil(totalInvestimento / ticketMedio) : 0;
 
             // Atualizar UI Resumo
-            document.getElementById('faturamentoTotal').innerText = formatCurrency(faturamentoTotal);
-            document.getElementById('lucroBruto').innerText = formatCurrency(lucroBruto);
+            document.getElementById('faturamentoTotal').innerText = formatCurrency(totalFaturamento);
             document.getElementById('roiFinal').innerText = roiPercent.toFixed(0) + '%';
+            document.getElementById('effMeta').innerText = leadsMeta > 0 ? ((vendasMeta/leadsMeta)*100).toFixed(1) + '%' : '0%';
+            document.getElementById('effGoogle').innerText = leadsGoogle > 0 ? ((vendasGoogle/leadsGoogle)*100).toFixed(1) + '%' : '0%';
             
-            // Atualizar Funil com Porcentagens
-            document.getElementById('funnel-leads').innerHTML = `Leads: ${leads}<br><span>(Base 100%)</span>`;
-            document.getElementById('funnel-agendados').innerHTML = `Agendados: ${agendados}<br><span>(${(taxaAgendamento * 100).toFixed(0)}% de Agendamento)</span>`;
-            document.getElementById('funnel-avaliacoes').innerHTML = `Avaliações: ${avaliacoes}<br><span>(${(taxaComparecimento * 100).toFixed(0)}% de Presença)</span>`;
-            document.getElementById('funnel-vendas').innerHTML = `Fechamentos: ${vendas}<br><span>(${(taxaConversao * 100).toFixed(0)}% de Conversão)</span>`;
-            document.getElementById('funnel-roi').innerHTML = `RESULTADO: ${(faturamentoTotal / (investimento || 1)).toFixed(1)}x<br><span>Retorno p/ cada R$ 1</span>`;
+            // Atualizar Funil Blended
+            document.getElementById('funnel-leads').innerHTML = `Leads Totais: ${totalLeads}<br><span>(Meta: ${leadsMeta} | Google: ${leadsGoogle})</span>`;
+            document.getElementById('funnel-agendados').innerHTML = `Agendados: ${totalAgendados}<br><span>(${(totalLeads > 0 ? (totalAgendados/totalLeads)*100 : 0).toFixed(0)}% Agendamento Médio)</span>`;
+            document.getElementById('funnel-avaliacoes').innerHTML = `Avaliações: ${totalPresencas}<br><span>(${(totalAgendados > 0 ? (totalPresencas/totalAgendados)*100 : 0).toFixed(0)}% Presença Geral)</span>`;
+            document.getElementById('funnel-vendas').innerHTML = `Fechamentos: ${totalVendas}<br><span>(${(totalPresencas > 0 ? (totalVendas/totalPresencas)*100 : 0).toFixed(0)}% Conversão Média)</span>`;
+            document.getElementById('funnel-roi').innerHTML = `RETORNO: ${(totalFaturamento / (totalInvestimento || 1)).toFixed(1)}x<br><span>Escala Multi-Canal</span>`;
 
             // KPIs Inferiores
-            document.getElementById('cac').innerText = formatCurrency(cac);
-            document.getElementById('pacientesTotal').innerText = vendas;
+            document.getElementById('cac').innerText = formatCurrency(cacBlended);
+            document.getElementById('pacientesTotal').innerText = totalVendas;
             document.getElementById('breakeven').innerText = breakeven + ' pac.';
-            document.getElementById('eficiencia').innerText = eficiencia.toFixed(1) + '%';
+            document.getElementById('ltvcac').innerText = cacBlended > 0 ? (ticketMedio / cacBlended).toFixed(1) : '0';
 
-            updateChart(investimento, faturamentoTotal);
+            updateChart(invMeta, faturamentoMeta, invGoogle, faturamentoGoogle);
         }
 
-        function updateChart(invest, fat) {
+        function updateChart(invM, fatM, invG, fatG) {
             const ctx = document.getElementById('roiChart').getContext('2d');
             
             if (myChart) {
@@ -325,30 +396,36 @@
             myChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: ['Investimento Publicitário', 'Faturamento Bruto'],
-                    datasets: [{
-                        label: 'Valores em R$',
-                        data: [invest, fat],
-                        backgroundColor: ['#333', '#8B0000'],
-                        borderColor: ['#555', '#4a0000'],
-                        borderWidth: 1,
-                        borderRadius: 8
-                    }]
+                    labels: ['META ADS', 'GOOGLE ADS'],
+                    datasets: [
+                        {
+                            label: 'Investimento',
+                            data: [invM, invG],
+                            backgroundColor: '#333',
+                            borderRadius: 5
+                        },
+                        {
+                            label: 'Faturamento Bruto',
+                            data: [fatM, fatG],
+                            backgroundColor: '#8B0000',
+                            borderRadius: 5
+                        }
+                    ]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: { display: false }
+                        legend: { labels: { color: '#888', font: { size: 10 } } }
                     },
                     scales: {
                         y: {
                             beginAtZero: true,
                             grid: { color: 'rgba(255,255,255,0.05)' },
-                            ticks: { color: '#888' }
+                            ticks: { color: '#888', font: { size: 10 } }
                         },
                         x: {
-                            ticks: { color: '#888' }
+                            ticks: { color: '#888', font: { size: 10 } }
                         }
                     }
                 }
